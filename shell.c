@@ -82,7 +82,87 @@ int main() {
         }
 
 
-        // Additional implementation for built-in commands, child process creation would go here...
+
+
+
+        // Additional implementation for built-in commands, child process creation would go here...    
+      //pwd command
+      if (strcmp(arguments[0], "pwd") == 0) {
+        if (getcwd(cwd, sizeof(cwd)) != NULL) {
+          printf("%s\n", cwd); // Print the current working directory
+        } else {
+        perror("getcwd() error"); // Print an error if getcwd fails
+        }
+      }
+      //exit command 
+      if (strcmp(arguments[0], "exit") == 0) {
+        exit(0);
+      }
+
+      //cd command
+      if (strcmp(arguments[0], "cd") == 0) {
+        if (arguments[1] == NULL) {
+            fprintf(stderr, "cd: expected argument to \"cd\"\n");
+        } else {
+            if (chdir(arguments[1]) != 0) {
+                perror("cd error");
+            }
+        }
+      }
+
+      //Echo command
+      if (strcmp(arguments[0], "echo") == 0) {
+        int arg_index = 1;
+      for (arg_index; arguments[arg_index] != NULL; arg_index++) {
+          printf("%s", arguments[arg_index]);
+          if (arguments[arg_index + 1] != NULL) {
+              printf(" "); // Print a space between arguments, but not after the last one
+          }
+        }
+      printf("\n"); // Print a newline after the last argument
+      }
+
+      if (strcmp(arguments[0], "setenv") == 0) {
+          if (arguments[1] == NULL || arguments[2] == NULL) {
+              fprintf(stderr, "setenv: too few arguments\n");
+              fprintf(stderr, "Usage: setenv VAR VALUE\n");
+          } else {
+              if (setenv(arguments[1], arguments[2], 1) != 0) {
+                  perror("setenv error");
+              }
+          }
+      }
+
+      if (strcmp(arguments[0], "env") == 0) {
+          char **env = environ;
+          while (*env) {
+              printf("%s\n", *env);  // Print each environment variable
+              env++;
+          }
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
   
 
         
