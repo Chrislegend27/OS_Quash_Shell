@@ -1,4 +1,4 @@
-#include <stdbool.h> 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -122,9 +122,10 @@ int main() {
                 dup2(fd, STDOUT_FILENO);
                 close(fd);
             }
-            execvp(arguments[0], arguments);
-            perror("Command execution failed");
-            exit(EXIT_FAILURE);
+            if (execvp(arguments[0], arguments) == -1) {
+                perror("execvp failed");
+                exit(EXIT_FAILURE);
+            }
         } else if (pid < 0) {
             perror("fork failed");
         } else {
